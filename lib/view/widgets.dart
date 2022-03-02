@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
-
 import '../controllers/response_Controller.dart';
 import '../styles.dart';
+
+
+
 
 
 
@@ -74,7 +76,7 @@ Widget card(
 ///
 /// the app bar for the home page of the app.
 
-appBar() {
+PreferredSizeWidget appBar() {
   return AppBar(
     title: const Text('History',
         style: TextStyle(
@@ -122,16 +124,24 @@ CoinController _coinController = Get.put(CoinController());
 Widget appBody() {
   return SizedBox(
     height: Get.height * 0.8,
-    child: ListView.builder(
-      itemCount: _coinController.coinList.length,
-      itemBuilder: (context, index) {
-        return card(
-          _coinController.coinList[index].image,
-          _coinController.coinList[index].name,
-          _coinController.coinList[index].priceChange24H,
-          _coinController.coinList[index].lastUpdated,
-        );
-      },
+    child: RefreshIndicator(
+      semanticsValue: "Refresh",
+                  color: Colors.green,
+                  triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                  onRefresh: () async {
+                    await _coinController.fetchCoin();
+                  },
+      child: ListView.builder(
+        itemCount: _coinController.coinList.length,
+        itemBuilder: (context, index) {
+          return card(
+            _coinController.coinList[index].image,
+            _coinController.coinList[index].name,
+            _coinController.coinList[index].priceChange24H,
+            _coinController.coinList[index].lastUpdated,
+          );
+        },
+      ),
     ),
   );
 }
@@ -147,6 +157,6 @@ Widget appBody() {
 /// 
 /// 
 
-dateFormat(DateTime date) {
+String dateFormat(DateTime date) {
   return Jiffy(date).format('MMMM do yyyy, h:mm:ss a');
 }
