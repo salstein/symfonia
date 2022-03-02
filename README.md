@@ -1,16 +1,24 @@
 # symfonia
 
-A new Flutter project.
+A cryptocurrency app.
 
-## Getting Started
+## symfonia
 
-This project is a starting point for a Flutter application.
+The project was built using the Model, Views, Controller, and Services (MVCs) Architecture.
+The state management used is GetX state management.
 
-A few resources to get you started if this is your first Flutter project:
+# Features Implemented 
+-  UI : all broken and splited into Widget classes and Methods to support reusability and readability.
+-  API calls : All Api calls are handled by the BaseClient class which is under the services folder the response from the request is sent to the Coin model.
+-  The cion model converts the API response Json into Coin object which can easily be binded to the UI.
+-  Controller: the controller class extends the GetxController which handle the state of the call.
+-  Pull down refresh: The refresh indicator widget which allows the pull down refresh effect to easily update observable values from the controller. 
+- -- 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Links:
+
+- [GITHUB LINK](https://github.com/salstein/symfonia)
+
+
+
