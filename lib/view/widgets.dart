@@ -120,7 +120,7 @@ appBar() {
 CoinController _coinController = Get.put(CoinController());
 
 Widget appBody() {
-  return Container(
+  return SizedBox(
     height: Get.height * 0.8,
     child: ListView.builder(
       itemCount: _coinController.coinList.length,
