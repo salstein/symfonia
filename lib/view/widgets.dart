@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:symfonia/models/response_model.dart';
+import '../config/size_config.dart';
 import '../controllers/response_Controller.dart';
 import '../styles.dart';
 
@@ -16,23 +18,21 @@ import '../styles.dart';
 /// 
 /// 
 Widget card(
-  String? url,
-  String? coinName,
-  double? priceChangePercentage24h,
-   DateTime? lastUpdated
+  BuildContext context,
+Coin coin
 ) {
   return Padding(
     padding: const EdgeInsets.only(right: 10, left: 10, top: 10),
     child: Row(children: [
       Container(
-        width: 60,
+        width: w(60,context),
         height: 90,
         child: Padding(
           padding: const EdgeInsets.all(4.0),
           child: CircleAvatar(
               backgroundColor: white,
               child: Image.network(
-                url!,
+                coin.image!,
                 fit: BoxFit.contain,
                 height: 50,
                 width: 50,
@@ -48,19 +48,19 @@ Widget card(
       Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(priceChangePercentage24h! > 0 ? "Recieved" : "Sent",
+          Text(coin.priceChangePercentage24H! > 0 ? "Recieved" : "Sent",
               style: const TextStyle(fontSize: 12, color: Colors.grey)),
-          Text(coinName!, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-          Text(dateFormat(lastUpdated!), style: const TextStyle(fontSize: 12, color: Colors.grey)),
+          Text(coin.name!, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+          Text(dateFormat(coin.lastUpdated!), style: const TextStyle(fontSize: 12, color: Colors.grey)),
         ],
       ),
       const Spacer(flex: 5),
       Text(
-          priceChangePercentage24h < 0
-              ? ("-\$" + (priceChangePercentage24h * -1).toStringAsFixed(2))
-              : "+\$" + priceChangePercentage24h.toStringAsFixed(2),
+          (coin.priceChangePercentage24H! < 0
+              ? ("-\$" + (coin.priceChangePercentage24H! * -1).toStringAsFixed(2))
+              : "+\$" + coin.priceChangePercentage24H!.toStringAsFixed(2)),
           style: TextStyle(
-              color: priceChangePercentage24h > 0 ? Colors.green : Colors.red,
+              color: coin.priceChangePercentage24H! > 0 ? Colors.green : Colors.red,
               fontSize: 16,
               fontWeight: FontWeight.bold)),
     ]),
@@ -135,10 +135,8 @@ Widget appBody() {
         itemCount: _coinController.coinList.length,
         itemBuilder: (context, index) {
           return card(
-            _coinController.coinList[index].image,
-            _coinController.coinList[index].name,
-            _coinController.coinList[index].priceChange24H,
-            _coinController.coinList[index].lastUpdated,
+            context,
+            _coinController.coinList[index]
           );
         },
       ),
