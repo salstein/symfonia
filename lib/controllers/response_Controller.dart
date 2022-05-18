@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import '../models/response_model.dart';
 import '../services/coinService.dart';
 
-class CoinController  extends GetxController{
+class CoinController  extends GetxController with StateMixin{
 
 
   RxBool isLoading = false.obs;
@@ -23,13 +23,18 @@ class CoinController  extends GetxController{
   List<Coin> coinList = <Coin>[].obs;
 
   fetchCoin() async {
-    isLoading(true);
+    
+    change(null, status: RxStatus.loading());
+  
     final coins = await CoinService.fetchCoin();
     if (coins != null) {
+      change(coins, status: RxStatus.success());
       coinList = coins;
-      //print("The List is... ${campaignsList[0].name}]}");
-      isLoading(false);
-    } else {   print("The List is... ${coinList}");}
+   
+    } else { 
+      change(null, status: RxStatus.error()); 
+      
+    }
   }
 
 }
